@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="QCM Med">
+  <meta name="theme-color" content="#0d9488">
+  <title>QCM Med L3</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<main id="app">
+
+  <!-- ============ HOME ============ -->
+  <section id="screen-home" class="screen active">
+    <header class="app-header">
+      <h1>QCM Med <span class="badge">L3</span></h1>
+      <p class="subtitle">Entraînement en conditions d'examen</p>
+    </header>
+    <div class="home-grid">
+      <a href="#exam-setup" class="home-card">
+        <span class="home-icon">📝</span>
+        <span class="home-title">Passer un examen</span>
+        <span class="home-desc">QCS &amp; QRM · correction finale</span>
+      </a>
+      <a href="#library" class="home-card">
+        <span class="home-icon">📚</span>
+        <span class="home-title">Bibliothèque</span>
+        <span class="home-desc">Parcourir · éditer</span>
+      </a>
+      <a href="#import" class="home-card">
+        <span class="home-icon">📥</span>
+        <span class="home-title">Importer</span>
+        <span class="home-desc">JSON depuis l'IA</span>
+      </a>
+      <a href="#settings" class="home-card">
+        <span class="home-icon">⚙️</span>
+        <span class="home-title">Réglages</span>
+        <span class="home-desc">Export · données</span>
+      </a>
+    </div>
+    <div id="home-stats" class="home-stats"></div>
+    <footer class="app-footer">v1.0 · offline · iPad ready</footer>
+  </section>
+
+  <!-- ============ IMPORT ============ -->
+  <section id="screen-import" class="screen">
+    <header class="screen-header">
+      <a href="#home" class="back-btn">←</a>
+      <h2>Importer des questions</h2>
+    </header>
+    <div class="screen-body">
+      <div id="import-input-view">
+        <p class="hint">Colle le JSON généré par l'IA ou choisis un fichier.</p>
+        <textarea id="import-textarea" rows="10" placeholder='{ "matiere": "Cardiologie", "chapitre": "...", "questions": [...] }'></textarea>
+        <div class="row-gap">
+          <label class="file-label">
+            📁 Choisir un fichier JSON
+            <input type="file" id="import-file" accept=".json,application/json">
+          </label>
+          <button id="import-analyze" class="btn btn-primary">Analyser</button>
+        </div>
+        <div id="import-status" class="status-box hidden"></div>
+      </div>
+
+      <div id="import-preview-view" class="hidden">
+        <div id="import-summary" class="import-summary"></div>
+        <div class="setup-field">
+          <label class="title">Matière par défaut</label>
+          <input type="text" id="import-matiere" placeholder="Ex: Cardiologie">
+        </div>
+        <div class="setup-field">
+          <label class="title">Chapitre par défaut</label>
+          <input type="text" id="import-chapitre" placeholder="Ex: Insuffisance cardiaque">
+        </div>
+        <div class="setup-field">
+          <label class="chip" id="import-replace-label">
+            <input type="checkbox" id="import-replace" checked>
+            Remplacer les doublons
+          </label>
+        </div>
+        <div id="import-errors"></div>
+        <div id="import-duplicates"></div>
+        <div class="row-gap">
+          <button id="import-cancel" class="btn btn-ghost">Annuler</button>
+          <button id="import-confirm" class="btn btn-primary">Importer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LIBRARY ============ -->
+  <section id="screen-library" class="screen">
+    <header class="screen-header">
+      <a href="#home" class="back-btn">←</a>
+      <h2>Bibliothèque</h2>
+    </header>
+    <div class="screen-body">
+      <div class="search-bar">
+        <input type="search" id="library-search" placeholder="Rechercher une question...">
+      </div>
+      <div id="library-content"></div>
+    </div>
+  </section>
+
+  <!-- ============ EXAM SETUP ============ -->
+  <section id="screen-exam-setup" class="screen">
+    <header class="screen-header">
+      <a href="#home" class="back-btn">←</a>
+      <h2>Passer un examen</h2>
+    </header>
+    <div class="screen-body">
+      <div id="exam-setup-form"></div>
+    </div>
+  </section>
+
+  <!-- ============ EXAM RUNNER ============ -->
+  <section id="screen-exam" class="screen">
+    <header class="exam-header">
+      <div class="exam-info">
+        <span id="exam-progress">0/0</span>
+        <span id="exam-timer">00:00</span>
+      </div>
+      <button id="exam-abort" class="btn btn-ghost btn-small">Abandonner</button>
+    </header>
+    <div id="exam-questions" class="screen-body"></div>
+    <footer class="exam-footer">
+      <button id="exam-submit" class="btn btn-primary btn-block">Terminer l'examen</button>
+    </footer>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="screen-results" class="screen">
+    <header class="screen-header">
+      <a href="#home" class="back-btn">←</a>
+      <h2>Résultats</h2>
+    </header>
+    <div class="screen-body">
+      <div id="results-summary"></div>
+      <div id="results-questions"></div>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section id="screen-settings" class="screen">
+    <header class="screen-header">
+      <a href="#home" class="back-btn">←</a>
+      <h2>Réglages</h2>
+    </header>
+    <div class="screen-body">
+      <div id="settings-stats" class="stats-box"></div>
+      <h3>Données</h3>
+      <div class="settings-actions">
+        <button id="export-all" class="btn btn-ghost">📤 Exporter toute la banque</button>
+        <button id="export-results" class="btn btn-ghost">📤 Exporter mes résultats</button>
+        <button id="reset-all" class="btn btn-danger">🗑️ Effacer toutes les données</button>
+      </div>
+      <h3>À propos</h3>
+      <p class="hint">
+        QCM Med L3 · v1.0<br>
+        Application offline installable depuis Safari.<br>
+        Données stockées localement (IndexedDB).<br>
+        Exporte régulièrement ta banque pour la sauvegarder.
+      </p>
+    </div>
+  </section>
+
+</main>
+<script type="module" src="js/app.js"></script>
+</body>
+</html> 
