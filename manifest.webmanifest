@@ -1,0 +1,20 @@
+{
+  "name": "QCM Med L3",
+  "short_name": "QCM Med",
+  "description": "Entraînement QCS & QRM en conditions d'examen",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#0d9488",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+} 
