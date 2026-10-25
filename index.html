@@ -9,14 +9,13 @@
   <meta name="theme-color" content="#0d9488">
   <title>QCM Med L3</title>
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="icons/icon.svg">
-  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%230d9488'/%3E%3Cpath d='M256 130 v252 M130 256 h252' stroke='white' stroke-width='58' stroke-linecap='round'/%3E%3C/svg%3E" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%230d9488'/%3E%3Cpath d='M256 130 v252 M130 256 h252' stroke='white' stroke-width='58' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <main id="app">
 
-  <!-- ============ HOME ============ -->
   <section id="screen-home" class="screen active">
     <header class="app-header">
       <h1>QCM Med <span class="badge">L3</span></h1>
@@ -45,10 +44,9 @@
       </a>
     </div>
     <div id="home-stats" class="home-stats"></div>
-    <footer class="app-footer">v1.0 · offline · iPad ready</footer>
+    <footer class="app-footer">v1.1 · offline · iPad ready</footer>
   </section>
 
-  <!-- ============ IMPORT ============ -->
   <section id="screen-import" class="screen">
     <header class="screen-header">
       <a href="#home" class="back-btn">←</a>
@@ -94,7 +92,6 @@
     </div>
   </section>
 
-  <!-- ============ LIBRARY ============ -->
   <section id="screen-library" class="screen">
     <header class="screen-header">
       <a href="#home" class="back-btn">←</a>
@@ -108,7 +105,6 @@
     </div>
   </section>
 
-  <!-- ============ EXAM SETUP ============ -->
   <section id="screen-exam-setup" class="screen">
     <header class="screen-header">
       <a href="#home" class="back-btn">←</a>
@@ -119,7 +115,6 @@
     </div>
   </section>
 
-  <!-- ============ EXAM RUNNER ============ -->
   <section id="screen-exam" class="screen">
     <header class="exam-header">
       <div class="exam-info">
@@ -134,7 +129,6 @@
     </footer>
   </section>
 
-  <!-- ============ RESULTS ============ -->
   <section id="screen-results" class="screen">
     <header class="screen-header">
       <a href="#home" class="back-btn">←</a>
@@ -146,7 +140,6 @@
     </div>
   </section>
 
-  <!-- ============ SETTINGS ============ -->
   <section id="screen-settings" class="screen">
     <header class="screen-header">
       <a href="#home" class="back-btn">←</a>
@@ -160,9 +153,13 @@
         <button id="export-results" class="btn btn-ghost">📤 Exporter mes résultats</button>
         <button id="reset-all" class="btn btn-danger">🗑️ Effacer toutes les données</button>
       </div>
+      <h3>Maintenance</h3>
+      <div class="settings-actions">
+        <button id="force-update" class="btn btn-ghost">🔄 Forcer la mise à jour de l'app</button>
+      </div>
       <h3>À propos</h3>
       <p class="hint">
-        QCM Med L3 · v1.0<br>
+        QCM Med L3 · v1.1<br>
         Application offline installable depuis Safari.<br>
         Données stockées localement (IndexedDB).<br>
         Exporte régulièrement ta banque pour la sauvegarder.
