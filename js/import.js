@@ -1,6 +1,6 @@
 import * as db from './db.js';
 
-let parsed = null; // { questions: [...], errors: [...], duplicates: [...], meta }
+let parsed = null;
 
 export function initImport() {
   document.getElementById('import-analyze').addEventListener('click', analyze);
@@ -47,7 +47,6 @@ async function analyze() {
     return;
   }
 
-  // Normalisation : accepte { questions: [...] } ou un tableau direct
   let questionsArr, meta;
   if (Array.isArray(data)) {
     questionsArr = data;
@@ -69,7 +68,6 @@ async function analyze() {
     return;
   }
 
-  // Validation
   const errors = [];
   const valid = [];
   questionsArr.forEach((q, idx) => {
@@ -78,7 +76,18 @@ async function analyze() {
     else errors.push({ index: idx, enonce: (q.enonce || '').slice(0, 80), errors: r.errors });
   });
 
-  // Détection de doublons par id ou hash(enonce)
+  // ⚠️ CORRECTIF v1.1 : dédoublonner les IDs au sein du même lot
+  const seenIds = new Set();
+  valid.forEach(q => {
+    if (seenIds.has(q.id)) {
+      const base = q.id;
+      let n = 1;
+      while (seenIds.has(base + '_' + n)) n++;
+      q.id = base + '_' + n;
+    }
+    seenIds.add(q.id);
+  });
+
   const existing = await db.getAllQuestions();
   const byId = new Map(existing.map(q => [q.id, q]));
   const byHash = new Map(existing.map(q => [hashEnonce(q.enonce), q]));
@@ -88,7 +97,7 @@ async function analyze() {
     if (dup) duplicates.push({ newQ: q, existing: dup });
   }
 
-  parsed = { valid, errors, duplicates, meta, replace: true };
+  parsed = { valid, errors, duplicates, meta };
   renderPreview();
 }
 
@@ -126,7 +135,7 @@ function validateQuestion(q, index) {
   return {
     valid: true,
     question: {
-      id: q.id || genId(q.enonce),
+      id: String(q.id || genId(q.enonce)),
       type,
       niveau,
       enonce: q.enonce.trim(),
@@ -198,7 +207,6 @@ function renderPreview() {
   }
 
   document.getElementById('import-replace').checked = true;
-
   updateConfirmLabel();
   document.getElementById('import-replace').onchange = updateConfirmLabel;
 }
@@ -240,4 +248,4 @@ async function confirmImport() {
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-}
+} 
