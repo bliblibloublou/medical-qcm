@@ -4,6 +4,7 @@ export function initStats() {
   document.getElementById('export-all').addEventListener('click', exportAll);
   document.getElementById('export-results').addEventListener('click', exportResults);
   document.getElementById('reset-all').addEventListener('click', resetAll);
+  document.getElementById('force-update')?.addEventListener('click', forceUpdate);
 }
 
 export async function refreshHomeStats() {
@@ -59,6 +60,19 @@ async function resetAll() {
   await refreshHomeStats();
   await refreshSettingsStats();
   window.__showScreen('home');
+}
+
+async function forceUpdate() {
+  if (!confirm('Forcer la mise à jour ? La page va se recharger et repartir sur une version fraîche.')) return;
+  try {
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for (const r of regs) await r.unregister();
+    }
+    const keys = await caches.keys();
+    for (const k of keys) await caches.delete(k);
+  } catch (e) { console.error(e); }
+  location.reload();
 }
 
 function downloadJSON(data, filename) {
