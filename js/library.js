@@ -32,7 +32,6 @@ function render() {
     return;
   }
 
-  // Grouper par matière → chapitre
   const byMatiere = {};
   for (const q of filtered) {
     byMatiere[q.matiere] = byMatiere[q.matiere] || {};
