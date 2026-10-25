@@ -36,7 +36,6 @@ body {
 .screen { display: none; min-height: 100vh; padding-bottom: calc(24px + var(--safe-bottom)); }
 .screen.active { display: block; }
 
-/* === HOME === */
 .app-header { padding: calc(24px + var(--safe-top)) 24px 20px; text-align: center; }
 .app-header h1 { font-size: 28px; font-weight: 700; margin: 0; color: var(--primary-dark); }
 .badge { background: var(--primary); color: white; font-size: 12px; padding: 2px 8px; border-radius: 999px; vertical-align: middle; margin-left: 4px; }
@@ -57,7 +56,6 @@ body {
 .stats-row .stats-value { font-weight: 600; color: var(--primary-dark); }
 .app-footer { text-align: center; color: var(--text-muted); font-size: 12px; padding: 24px 16px; }
 
-/* === HEADERS === */
 .screen-header {
   display: flex; align-items: center; padding: calc(16px + var(--safe-top)) 16px 16px; gap: 12px;
   border-bottom: 1px solid var(--border); background: var(--surface);
@@ -71,7 +69,6 @@ body {
 }
 .screen-body { padding: 16px; max-width: 900px; margin: 0 auto; }
 
-/* === BUTTONS & INPUTS === */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   padding: 12px 18px; border-radius: var(--radius-sm); border: none;
@@ -108,7 +105,6 @@ textarea { resize: vertical; min-height: 180px; font-family: 'SF Mono', Menlo, m
 .hint { color: var(--text-muted); font-size: 13px; }
 .search-bar { margin-bottom: 16px; }
 
-/* === IMPORT === */
 .import-summary {
   background: var(--surface); border-radius: var(--radius); padding: 16px;
   margin-bottom: 16px; box-shadow: var(--shadow); font-size: 14px;
@@ -123,7 +119,6 @@ details.err-list summary { cursor: pointer; padding: 10px; background: var(--sur
   font-size: 13px; color: var(--danger);
 }
 
-/* === LIBRARY === */
 .matiere-block { margin-bottom: 16px; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
 .matiere-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-bottom: 1px solid var(--border); }
 .matiere-name { font-weight: 600; }
@@ -135,7 +130,6 @@ details.err-list summary { cursor: pointer; padding: 10px; background: var(--sur
 .question-item { padding: 10px; margin-bottom: 6px; background: var(--surface); border-radius: var(--radius-sm); font-size: 14px; }
 .q-type-tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; background: var(--primary-light); color: var(--primary-dark); font-weight: 600; margin-right: 6px; }
 
-/* === EXAM === */
 .exam-header {
   position: sticky; top: 0; z-index: 20; background: var(--surface);
   padding: calc(10px + var(--safe-top)) 16px 10px; border-bottom: 1px solid var(--border);
@@ -163,7 +157,6 @@ details.err-list summary { cursor: pointer; padding: 10px; background: var(--sur
 .prop-letter { font-weight: 700; color: var(--primary-dark); min-width: 20px; }
 .prop-text { flex: 1; font-size: 14px; }
 
-/* === RESULTS === */
 .results-hero { background: var(--surface); border-radius: var(--radius); padding: 24px; text-align: center; margin-bottom: 20px; box-shadow: var(--shadow); }
 .results-score { font-size: 48px; font-weight: 700; color: var(--primary-dark); margin: 0; }
 .results-label { color: var(--text-muted); font-size: 14px; }
@@ -180,11 +173,9 @@ details.err-list summary { cursor: pointer; padding: 10px; background: var(--sur
 .res-prop .marker { font-weight: 700; min-width: 16px; }
 .explication { margin-top: 10px; padding: 10px; background: var(--surface-alt); border-radius: 6px; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
-/* === SETTINGS === */
 .settings-actions { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
 .stats-box { background: var(--surface); border-radius: var(--radius); padding: 16px; margin-bottom: 20px; box-shadow: var(--shadow); }
 
-/* === EXAM SETUP === */
 .setup-field { margin-bottom: 18px; }
 .setup-field label.title { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
 .setup-field select { padding: 10px; }
