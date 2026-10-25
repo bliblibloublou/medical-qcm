@@ -19,7 +19,6 @@ export async function refreshExamSetup() {
     return;
   }
 
-  // Regrouper matières / chapitres
   const matieres = {};
   for (const q of all) {
     matieres[q.matiere] = matieres[q.matiere] || {};
@@ -88,10 +87,10 @@ export async function refreshExamSetup() {
         ${escapeHtml(c)} <span class="hint">(${matieres[m][c]})</span>
       </label>
     `).join('');
+    // ⚠️ CORRECTIF v1.1 : écoute sur input 'change' (plus de toggle manuel)
     chapBox.querySelectorAll('.chip').forEach(chip => {
       const input = chip.querySelector('input');
-      chip.addEventListener('click', (e) => {
-        if (e.target.tagName !== 'INPUT') input.checked = !input.checked;
+      input.addEventListener('change', () => {
         chip.classList.toggle('selected', input.checked);
         updatePreview();
       });
@@ -131,13 +130,13 @@ export async function refreshExamSetup() {
   }
 
   matSelect.addEventListener('change', refreshChapitres);
-  diffRadios.forEach(r => r.addEventListener('change', (e) => {
+  diffRadios.forEach(r => r.addEventListener('change', () => {
     document.querySelectorAll('#setup-difficulte .chip').forEach(c => c.classList.toggle('selected', c.querySelector('input').checked));
     updatePreview();
   }));
   countSelect.addEventListener('change', updatePreview);
 
-  document.getElementById('setup-launch').addEventListener('click', () => launchExam());
+  document.getElementById('setup-launch').addEventListener('click', launchExam);
 
   refreshChapitres();
 }
@@ -152,7 +151,6 @@ function shuffle(arr) {
 }
 
 function launchExam() {
-  // Récupérer les filtres depuis le DOM (recalcul identique à refreshExamSetup)
   const matiere = document.getElementById('setup-matiere').value;
   const chapitres = matiere
     ? Array.from(document.querySelectorAll('.chap-check:checked')).map(i => i.value)
@@ -160,7 +158,6 @@ function launchExam() {
   const diff = document.querySelector('input[name="difficulte"]:checked').value;
   const count = document.getElementById('setup-count').value;
 
-  // Reconstruire le pool
   db.getAllQuestions().then(all => {
     let qs = all;
     if (matiere) qs = qs.filter(q => q.matiere === matiere);
@@ -215,14 +212,14 @@ function renderExam() {
   document.getElementById('exam-progress').textContent = `0/${currentExam.questions.length}`;
   document.getElementById('exam-timer').textContent = '00:00';
 
-  // Met à jour le compteur répondu
-  container.addEventListener('change', () => {
+  // ⚠️ CORRECTIF v1.1 : onchange (propriété) au lieu de addEventListener → pas d'accumulation
+  container.onchange = () => {
     const answered = currentExam.questions.filter(q => {
       const checked = document.querySelectorAll(`input[name="q_${CSS.escape(q.id)}"]:checked`);
       return checked.length > 0;
     }).length;
     document.getElementById('exam-progress').textContent = `${answered}/${currentExam.questions.length}`;
-  });
+  };
 }
 
 function startTimer() {
@@ -259,7 +256,6 @@ async function submitExam(abort) {
     : 'Terminer l\'examen ?';
   if (!confirm(msg)) return;
 
-  // Collecte des réponses
   const answers = {};
   for (const q of currentExam.questions) {
     const checked = document.querySelectorAll(`input[name="q_${CSS.escape(q.id)}"]:checked`);
@@ -285,7 +281,6 @@ async function submitExam(abort) {
   };
   await db.saveSession(session);
 
-  // Mettre à jour les stats par question
   const updates = currentExam.questions.map((q, i) => ({
     ...q,
     stats: {
@@ -295,7 +290,6 @@ async function submitExam(abort) {
   }));
   await db.putQuestions(updates);
 
-  // Afficher les résultats
   stopTimer();
   renderResults(session, currentExam.questions, results);
   currentExam = null;
@@ -353,4 +347,4 @@ function escapeHtml(s) {
 }
 function escapeAttr(s) {
   return escapeHtml(s);
-}
+} 
